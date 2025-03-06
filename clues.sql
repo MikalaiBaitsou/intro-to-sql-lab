@@ -41,10 +41,10 @@ AND countrycode != 'VAT';
 -- We're following our gut on this one; find out what other city in that country she might be flying to.
 
 -- Write SQL query here
-SELECT city_name
+SELECT name
 FROM cities
-WHERE country_code = 'SMR'
-AND city_name != 'San Marino';
+WHERE countrycode = 'SMR'
+AND name != 'San Marino';
 
 
 -- Clue #5: Oh no, she pulled a switch – there are two cities with very similar names, but in totally different parts of the globe!
@@ -53,17 +53,17 @@ AND city_name != 'San Marino';
 
 -- Write SQL query here
 -- Find the city in South America similar to Serravalle with a different ending
-SELECT city_name
+SELECT name
 FROM cities
-WHERE country_code IN ('ARG', 'BOL', 'BRA', 'CHL', 'ECU') -- South American countries in this dataset
-AND city_name LIKE 'Serra%' -- Starts with "Serra" for similarity
-AND city_name != 'Serravalle' -- Excludes Serravalle itself
-AND city_name NOT LIKE '%valle'; -- Doesn’t end with "valle"
+WHERE countrycode IN ('ARG', 'BOL', 'BRA', 'CHL', 'ECU') -- South American countries in this dataset
+AND name LIKE 'Serra%' -- Starts with "Serra" for similarity
+AND name != 'Serravalle' -- Excludes Serravalle itself
+AND name NOT LIKE '%valle'; -- Doesn’t end with "valle"
 
--- Find the country of the city
-SELECT country_code
+
+SELECT countrycode
 FROM cities
-WHERE city_name = 'Serra';
+WHERE name = 'Serra';
 
 
 -- Clue #6: We're close! Our South American agent says she just got a taxi at the airport, and is headed towards
@@ -72,10 +72,10 @@ WHERE city_name = 'Serra';
 
 -- Write SQL query here
 -- Find the capital of Brazil
-SELECT city_name
+SELECT name
 FROM cities
-WHERE country_code = 'BRA'
-AND city_name = 'Brasília';
+WHERE countrycode = 'BRA'
+AND name = 'Brasília';
 
 -- Clue #7: She knows we're on to her – her taxi dropped her off at the international airport, and she beat us to the boarding gates.
 --  We have one chance to catch her, we just have to know where she's heading and beat her to the landing dock.
@@ -91,14 +91,14 @@ AND city_name = 'Brasília';
 
 -- We're counting on you, gumshoe. Find out where she's headed, send us the info, and we'll be sure to meet her at the gates with bells on.
 
-SELECT city_name
+SELECT name
 FROM cities
 WHERE population BETWEEN 91000 AND 92000  -- Range around 91,085
-AND country_code != 'BRA'  -- International flight from Brazil
+AND countrycode != 'BRA'  -- International flight from Brazil
 AND population = 91084  -- Closest match from dataset
 LIMIT 1;
 
 -- Step 2: Confirm the city (optional, for clarity)
-SELECT city_name, country_code, population
+SELECT name, countrycode, population
 FROM cities
-WHERE city_name = 'Santa Monica';
+WHERE name = 'Santa Monica';
